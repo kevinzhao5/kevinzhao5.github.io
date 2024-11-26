@@ -37,11 +37,11 @@ const choicesElement = document.getElementById("choices");
 let historyStack = [];
 
 // Function to display a story node
-function displayNode(nodeKey) {
+function displayNode(nodeKey, fromRewind=false) {
     const node = storyNodes[nodeKey];
 
     // Add the current story and choices to the log
-    if (storyElement.textContent.trim() !== "") {
+    if (!fromRewind && storyElement.textContent.trim() !== "") {
         const logEntry = document.createElement("div");
         logEntry.classList.add("choice");
 
@@ -60,15 +60,10 @@ function displayNode(nodeKey) {
             if (button.classList.contains("selected")) {
                 logButton.classList.add("selected");
             }
-            logChoices.appendChild(logButton);
+            if (logButton.textContent !== "Rewind") {
+                logChoices.appendChild(logButton);
+            }
         });
-
-        // Add a rewind button to the log
-        const rewindButton = document.createElement("button");
-        rewindButton.textContent = "Rewind";
-        rewindButton.classList.add("rewind");
-        rewindButton.onclick = () => rewind();
-        logChoices.appendChild(rewindButton);
 
         logEntry.appendChild(logChoices);
         storyLogElement.appendChild(logEntry);
@@ -90,15 +85,21 @@ function displayNode(nodeKey) {
         };
         choicesElement.appendChild(button);
     });
+    // Add a rewind button to the log
+    const rewindButton = document.createElement("button");
+    rewindButton.textContent = "Rewind";
+    rewindButton.classList.add("rewind");
+    rewindButton.onclick = () => rewind();
+    choicesElement.appendChild(rewindButton);
 }
 
 // Function to rewind to the previous choice
 function rewind() {
     if (historyStack.length > 1) {
         historyStack.pop(); // Remove the current state
-        const previousNodeKey = historyStack.pop(); // Get the previous state
-        storyLogElement.lastChild.remove(); // Remove the last log entry
-        displayNode(previousNodeKey);
+        const previousNodeKey = historyStack[historyStack.length - 1]; // Get the previous state
+        storyLogElement.lastChild.remove(); 
+        displayNode(previousNodeKey, true);
     }
 }
 
