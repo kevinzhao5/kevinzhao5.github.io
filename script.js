@@ -29,12 +29,29 @@ const storyNodes = {
 };
 
 // DOM elements
+const storyLogElement = document.getElementById("story-log");
 const storyElement = document.getElementById("story");
 const choicesElement = document.getElementById("choices");
 
 // Function to display a story node
 function displayNode(nodeKey) {
     const node = storyNodes[nodeKey];
+
+    // Add the current story and choices to the log
+    const logEntry = document.createElement("div");
+    logEntry.classList.add("choice");
+    logEntry.innerHTML = `<p>${storyElement.textContent}</p>`;
+    const logChoices = document.createElement("div");
+    Array.from(choicesElement.children).forEach(button => {
+        const greyedButton = button.cloneNode(true);
+        greyedButton.classList.add("disabled");
+        greyedButton.disabled = true;
+        logChoices.appendChild(greyedButton);
+    });
+    logEntry.appendChild(logChoices);
+    storyLogElement.appendChild(logEntry);
+
+    // Update current story and choices
     storyElement.textContent = node.text;
     choicesElement.innerHTML = ""; // Clear previous choices
 

@@ -18,7 +18,10 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        #choices button {
+        .choice {
+            margin-top: 20px;
+        }
+        button {
             margin: 5px 0;
             padding: 10px 20px;
             background-color: #007BFF;
@@ -27,17 +30,27 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        #choices button:hover {
+        button:hover {
             background-color: #0056b3;
+        }
+        button.disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
     <div id="game-container">
         <h1>Choose Your Adventure</h1>
-        <p id="story">Welcome to the game! Your journey begins here.</p>
-        <div id="choices">
-            <!-- Choices will be dynamically added here -->
+        <div id="story-log">
+            <!-- Previous choices and story parts will be displayed here -->
+        </div>
+        <div id="current">
+            <p id="story">Welcome to the game! Your journey begins here.</p>
+            <div id="choices">
+                <!-- Choices will be dynamically added here -->
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
