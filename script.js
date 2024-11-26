@@ -33,11 +33,14 @@ const storyLogElement = document.getElementById("story-log");
 const storyElement = document.getElementById("story");
 const choicesElement = document.getElementById("choices");
 
+// History stack to enable rewinding
+let historyStack = [];
+
 // Function to display a story node
 function displayNode(nodeKey) {
     const node = storyNodes[nodeKey];
 
-    // Log the current story and choices
+    // Add the current story and choices to the log
     if (storyElement.textContent.trim() !== "") {
         const logEntry = document.createElement("div");
         logEntry.classList.add("choice");
@@ -50,16 +53,28 @@ function displayNode(nodeKey) {
         // Add the previous choices to the log
         const logChoices = document.createElement("div");
         Array.from(choicesElement.children).forEach(button => {
-            const greyedButton = document.createElement("button");
-            greyedButton.textContent = button.textContent;
-            greyedButton.classList.add("disabled");
-            greyedButton.disabled = true;
-            logChoices.appendChild(greyedButton);
+            const logButton = document.createElement("button");
+            logButton.textContent = button.textContent;
+            logButton.disabled = true;
+            logButton.classList.add("disabled");
+            if (button.classList.contains("selected")) {
+                logButton.classList.add("selected");
+            }
+            logChoices.appendChild(logButton);
         });
-        logEntry.appendChild(logChoices);
 
-        // Append the log entry to the log container
+        // Add a rewind button to the log
+        const rewindButton = document.createElement("button");
+        rewindButton.textContent = "Rewind";
+        rewindButton.classList.add("rewind");
+        rewindButton.onclick = () => rewind();
+        logChoices.appendChild(rewindButton);
+
+        logEntry.appendChild(logChoices);
         storyLogElement.appendChild(logEntry);
+
+        // Save the current state to history for rewinding
+        historyStack.push(nodeKey);
     }
 
     // Update current story and choices
@@ -69,9 +84,22 @@ function displayNode(nodeKey) {
     node.choices.forEach(choice => {
         const button = document.createElement("button");
         button.textContent = choice.text;
-        button.onclick = () => displayNode(choice.nextNode);
+        button.onclick = () => {
+            button.classList.add("selected");
+            displayNode(choice.nextNode);
+        };
         choicesElement.appendChild(button);
     });
+}
+
+// Function to rewind to the previous choice
+function rewind() {
+    if (historyStack.length > 1) {
+        historyStack.pop(); // Remove the current state
+        const previousNodeKey = historyStack.pop(); // Get the previous state
+        storyLogElement.lastChild.remove(); // Remove the last log entry
+        displayNode(previousNodeKey);
+    }
 }
 
 // Start the game
