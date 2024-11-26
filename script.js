@@ -37,19 +37,30 @@ const choicesElement = document.getElementById("choices");
 function displayNode(nodeKey) {
     const node = storyNodes[nodeKey];
 
-    // Add the current story and choices to the log
-    const logEntry = document.createElement("div");
-    logEntry.classList.add("choice");
-    logEntry.innerHTML = `<p>${storyElement.textContent}</p>`;
-    const logChoices = document.createElement("div");
-    Array.from(choicesElement.children).forEach(button => {
-        const greyedButton = button.cloneNode(true);
-        greyedButton.classList.add("disabled");
-        greyedButton.disabled = true;
-        logChoices.appendChild(greyedButton);
-    });
-    logEntry.appendChild(logChoices);
-    storyLogElement.appendChild(logEntry);
+    // Log the current story and choices
+    if (storyElement.textContent.trim() !== "") {
+        const logEntry = document.createElement("div");
+        logEntry.classList.add("choice");
+
+        // Add the story text to the log
+        const logText = document.createElement("p");
+        logText.textContent = storyElement.textContent;
+        logEntry.appendChild(logText);
+
+        // Add the previous choices to the log
+        const logChoices = document.createElement("div");
+        Array.from(choicesElement.children).forEach(button => {
+            const greyedButton = document.createElement("button");
+            greyedButton.textContent = button.textContent;
+            greyedButton.classList.add("disabled");
+            greyedButton.disabled = true;
+            logChoices.appendChild(greyedButton);
+        });
+        logEntry.appendChild(logChoices);
+
+        // Append the log entry to the log container
+        storyLogElement.appendChild(logEntry);
+    }
 
     // Update current story and choices
     storyElement.textContent = node.text;
