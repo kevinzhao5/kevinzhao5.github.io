@@ -1,32 +1,110 @@
-// Define the story structure
 const storyNodes = {
     start: {
-        text: "You are standing at the edge of a dark forest. Do you enter or stay where you are?",
+        text: "You and your crew are in the land of the Cyclops, and happen upon a cave filled with sheep and crates of food.",
         choices: [
-            { text: "Enter the forest", nextNode: "forest" },
-            { text: "Stay where you are", nextNode: "stay" }
+            { text: "Stay and feast, energizing yourselves and replenshing food stores", nextNode: "stay"},
+            { text: "Leave, for it is dangerous", nextNode: "leave"},
         ]
     },
-    forest: {
-        text: "You venture into the forest and hear rustling behind you. Do you investigate or run?",
-        choices: [
-            { text: "Investigate the sound", nextNode: "investigate" },
-            { text: "Run deeper into the forest", nextNode: "run" }
-        ]
+    leave: {
+        text: "You lead your crew out, being on the watch for Cyclops, and manage to make it out all alive.",
+        choices: []
     },
     stay: {
-        text: "You stay at the edge of the forest and nothing happens. The adventure ends here.",
+        text: "Turns out this is the cave of Polyphemus, and he comes back and eats two of your men, and imprisons the rest of you.",
+        choices: [
+            { text: "Appeal to his hospitality as a guest", nextNode: "hospitality" },
+            { text: "Give him wine", nextNode: "offerWine"},
+            { text: "Attack him outright", nextNode: "attack" }
+        ]
+    },
+    hospitality: {
+        text: "You appeal to the values of xenia. Polyphemus laughs and ignores your requests, instead deciding to eat you now.",
         choices: []
     },
-    investigate: {
-        text: "You find a friendly squirrel who shows you a hidden treasure. The adventure ends here.",
+    attack: {
+        text: "You and your men charge the Cyclops. Polyphemus easily defeats you with his overwhelming strength. Your story ends here.",
         choices: []
     },
-    run: {
-        text: "You run deeper into the forest and get lost. The adventure ends here.",
+    offerWine: {
+        text: "You offer Polyphemus some of your finest wine. He gets super drunk and falls asleep.",
+        choices: [
+            { text: "Tell him your name is 'Nobody'", nextNode: "nobody" },
+            { text: "Convince him to let you go in exchange for more wine", nextNode: "bargain" }
+        ]
+    },
+    ambush: {
+        text: "You try to ambush Polyphemus, but he quickly catches on and retaliates. Many of your men are lost. Your story ends here.",
+        choices: []
+    },
+    sharpenStake: {
+        text: "You and your men sharpen a large wooden stake. How do you proceed?",
+        choices: [
+            { text: "Wait until Polyphemus falls asleep", nextNode: "waitSleep" },
+            { text: "Rush to blind him immediately", nextNode: "rushBlind" }
+        ]
+    },
+    sheepEscape: {
+        text: "You plan to cling to the underside of the Cyclops' sheep when they are let out to graze. Do you:",
+        choices: [
+            { text: "Try to execute the plan immediately", nextNode: "earlyEscape" },
+            { text: "Wait for the right moment", nextNode: "waitMoment" }
+        ]
+    },
+    nobody: {
+        text: "Polyphemus, drunk and satisfied, asks for your name. You tell him you are 'Nobody.' He promises to eat 'Nobody' last. What next?",
+        choices: [
+            { text: "Blind him while he sleeps", nextNode: "blind" },
+            { text: "Continue giving him wine to keep him drunk", nextNode: "moreWine" }
+        ]
+    },
+    blind: {
+        text: "While Polyphemus sleeps, you and your men drive the stake into his single eye, blinding him. He wakes, roaring in pain, shouting, 'Nobody is hurting me!' What's your next move?",
+        choices: [
+            { text: "Hide and wait for him to open the cave", nextNode: "hideWait" },
+            { text: "Cling to the underside of his sheep to escape", nextNode: "sheepExit" }
+        ]
+    },
+    moreWine: {
+        text: "You continue to ply Polyphemus with wine until he passes out completely. Now is your chance to act!",
+        choices: [
+            { text: "Blind him now", nextNode: "blind" },
+            { text: "Try to sneak out while he sleeps", nextNode: "sneakOut" }
+        ]
+    },
+    hideWait: {
+        text: "You hide as Polyphemus gropes around the cave in anger. Eventually, he lets his sheep out, and you cling to their undersides to escape. Your cleverness has saved you!",
+        choices: []
+    },
+    sheepExit: {
+        text: "Clinging to the sheep, you and your men sneak past the blinded Cyclops. Freedom is yours!",
+        choices: []
+    },
+    sneakOut: {
+        text: "You try to sneak out, but Polyphemus blocks the entrance in his rage. Your plan fails. Your story ends here.",
+        choices: []
+    },
+    waitSleep: {
+        text: "You wait until Polyphemus falls asleep, then execute your plan. He awakens too late, blinded and roaring in pain. How do you escape?",
+        choices: [
+            { text: "Hide and wait for the right moment", nextNode: "hideWait" },
+            { text: "Escape by clinging to the sheep", nextNode: "sheepExit" }
+        ]
+    },
+    rushBlind: {
+        text: "You rush to blind Polyphemus before he falls asleep, but he easily overpowers you. Your story ends here.",
+        choices: []
+    },
+    earlyEscape: {
+        text: "You try to execute your plan early, but Polyphemus notices and traps you in the cave. Your story ends here.",
+        choices: []
+    },
+    waitMoment: {
+        text: "You wait patiently for the perfect moment. When Polyphemus lets his sheep out, you cling to their undersides and escape unnoticed. Your cunning has saved you!",
         choices: []
     }
 };
+
 
 // DOM elements
 const storyLogElement = document.getElementById("story-log");
