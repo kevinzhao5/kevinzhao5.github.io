@@ -239,7 +239,6 @@ export const storyNodes = {
         text: "After escaping the Laestrygonians, you and your crew sail to the island of Aeaea. The sorceress Circe lives here, wielding powerful magic.",
         choices: [
             { text: "Approach Circe’s palace cautiously", nextNode: "cautiousApproach_6" },
-            { text: "Send a few men to explore her palace", nextNode: "sendMen_6" }
         ]
     },
     cautiousApproach_6: {
