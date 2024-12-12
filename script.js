@@ -1,4 +1,4 @@
-import storyNodes from 'story'
+import { storyNodes } from './story.js'
 
 // DOM elements
 const storyLogElement = document.getElementById("story-log");
